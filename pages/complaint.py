@@ -3,10 +3,14 @@ import requests
 from database import complaints
 from mail import send_mail
 
+
+
 # ---------- LOGIN CHECK ----------
 if "user" not in st.session_state or st.session_state.user is None:
     st.warning("Please login first")
     st.stop()
+
+user = st.session_state.user
 
 # ---------- SESSION ----------
 if "address" not in st.session_state:
@@ -29,7 +33,8 @@ st.subheader("Complaint Form")
 
 name = st.text_input(
     "Name",
-    placeholder="Enter your full name"
+    value = user["name"], 
+    # disabled=True
 )
 
 mobile = st.text_input(
@@ -37,12 +42,13 @@ mobile = st.text_input(
     placeholder="Enter 10 digit mobile number",
     max_chars=10,
     key="mobile_input"
-)
+)   
 
 
 email = st.text_input(
     "Email ID",
-    placeholder="Enter your email address"
+    value=user["email"], 
+    #disabled=True
 )
 
 # Location Button
@@ -88,7 +94,6 @@ if st.button("Submit Complaint"):
         or complaint_type == "Select the type of complaint"
     ):
         st.error("Please fill in all required fields")
-        st.write("chcck mail formation or retype email")
     else:
         complaints.insert_one({
             "name": name,
@@ -96,7 +101,8 @@ if st.button("Submit Complaint"):
             "email": email,
             "address": address,
             "complaint_type": complaint_type,
-            "description": description
+            "description": description,
+            "status": "Pending"
         })
 
         st.success("Complaint submitted successfully")
@@ -132,3 +138,4 @@ if st.button("Submit Complaint"):
             admin_message
         )
         st.success("Sangathan recivwed your complaint and will take action soon! 🙏")
+

@@ -1,22 +1,27 @@
 import streamlit as st
 from database import contributions
 
+from mail import send_mail
+
+
 if "user" not in st.session_state or st.session_state.user is None:
     st.warning("Please login first")
     st.stop()
     
+user = st.session_state.user
+
 st.title("Yuva Shakti Sangathan")
 
 st.subheader("Contribution")
 
 name = st.text_input(
     "Name",
-    placeholder="Enter your name"
+    value= user["name"],
 )
 
 email = st.text_input(
     "Email",
-    placeholder="Enter your email"
+    value= user["email"]
 )
 
 payment = st.number_input(
@@ -38,11 +43,32 @@ method = st.selectbox(
 if st.button("Contribute"):
     if not name or not email or not payment:
         st.error("please fill in all the fields")
-    else:
+    else:   
+        # order = create_order(payment)
+
         contributions.insert_one({
             "name": name,
             "email": email,
             "payment": payment,
-            "method": method
+            "method": method,
+            # "status":"Pendeng",
+            # "order_id": order["id"]
         })
-        st.success("Thank you for your contribution! 🙏")
+        st.success(f"Thank you for your {payment} contribution! 🙏")
+
+        send_mail(
+            email,
+            "Payment Initiated",
+             f"Hello {name}, your payment of ₹{payment}"
+        )
+
+        send_mail(
+            "shuklalakshaya108@gmail.com",
+            "New Contribution",
+            f"{name} is Contirbution ₹{payment}"
+        )
+
+        st.success("Payment Initiated ✅")
+
+
+      

@@ -4,6 +4,7 @@ from auth import signup_user, login_user
 st.set_page_config(page_title="Yuva Shakti Sangathan", layout="centered")
 
 
+
 # ---------- SESSION ----------
 if "user" not in st.session_state:
     st.session_state.user = None
@@ -54,17 +55,52 @@ if st.sidebar.button("Logout"):
 # ---------- HOME ----------
 
 st.title("Yuva Shakti Sangathan")
+st.caption("Empowering youth to solve community problems 🚀")
 
 st.image(
     "https://i.pinimg.com/1200x/6c/dd/13/6cdd13b4bd695b3d30836a18bef0ea18.jpg",
-    width=450
-    )
+    width=600
+    )   
+
+
+st.markdown("""
+### 🙌 Welcome to Yuva Shakti Sangathan
+
+A platform where citizens can:
+- 📝 Raise complaints  
+- 📍 Report local issues  
+- 🤝 Contribute to society  
+""")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.info("📢 **Raise Complaint**\n\nReport issues like roads, water, garbage")
+
+with col2:
+    st.success("💰 **Contribute**\n\nSupport community initiatives")
+
+with col3:
+    st.warning("📊 **Track Status**\n\nSee updates on your complaints")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header("Events Details")
-    st.subheader("15th August 2024 - Independence Day Celebration")
-    st.write(
-        "Join us for a grand celebration of India's independence with cultural performances, flag hoisting, and community activities."
-        )
+    if st.button("🚀 Raise Complaint"):
+        st.switch_page("pages/complaint.py")
+
+with col2:
+    if st.button("💳 Contribute Now"):
+        st.switch_page("pages/contribution.py")
+
+st.subheader("Events")
+
+col1, col2 = st.columns(2)
+with col1:
+    st.write("""
+        15th August 2024 - Independence Day Celebration \n
+        Join us for a grand celebration of India's independence with cultural performances, flag hoisting, and community activities.
+             """)
+
+st.markdown("---")
+st.caption("Made with ❤️ by Yuva Shakti Sangathan")
