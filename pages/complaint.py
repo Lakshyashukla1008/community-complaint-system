@@ -7,7 +7,8 @@ from mail import send_mail
 
 # ---------- LOGIN CHECK ----------
 if "user" not in st.session_state or st.session_state.user is None:
-    st.warning("Please login first")
+    st.warning(f"""Please login first\n
+    click on >> icon on top left and click on Home then select signup from the menu""")
     st.stop()
 
 user = st.session_state.user
@@ -48,16 +49,13 @@ mobile = st.text_input(
 email = st.text_input(
     "Email ID",
     value=user["email"], 
-    #disabled=True
+    
 )
 
-# Location Button
-# st.button("Use My Location", on_click=set_location)
 
-# Address
 address = st.text_area(
     "Address",
-    # key="address",
+    
     placeholder="Enter your full address"
 )
 

@@ -88,7 +88,7 @@ if st.session_state.admin_logged_in:
                     {"$set": {"status": "Pending"}}
                 )
                 st.rerun()
-
+    
         # ---------- RESOLVED ----------
         with col2:
             if st.button("✅ Resolved", key=f"r_{c['_id']}"):

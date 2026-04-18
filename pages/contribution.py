@@ -5,7 +5,8 @@ from mail import send_mail
 
 
 if "user" not in st.session_state or st.session_state.user is None:
-    st.warning("Please login first")
+    st.warning(f"""Please login first\n
+    click on >> icon on top left and click on Home then select signup from the menu""")
     st.stop()
     
 user = st.session_state.user

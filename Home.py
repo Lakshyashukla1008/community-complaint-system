@@ -10,19 +10,21 @@ if "user" not in st.session_state:
     st.session_state.user = None
 # # ---------- LOGIN / SIGNUP ----------
 if st.session_state.user is None:
-    menu = st.sidebar.selectbox("Menu", ["Login", "Signup"])
+    menu = st.sidebar.selectbox("Menu", ["Signup","Login"])
 
     # SIGNUP
     if menu == "Signup":
-        st.subheader("Create Account")
+        st.markdown("### 📝 Create Account")
 
-        name = st.text_input("Name")
-        email = st.text_input("Email")
-        password = st.text_input("Password", type="password")
+        name = st.text_input("Name",key="signup_name")
+        email = st.text_input("Email",key="signup_email")
+        password = st.text_input("Password", type="password", key="signup_pass")
 
-        if st.button("Signup"):
+        if st.button("Signup"): 
             if signup_user(name, email, password):
-                st.success("Account created! Please login.")
+                st.success(f"""Account created! Please login.\n\n
+                           Now select "login" from the sidebar top left << icon click on menu and click on login""")
+                
             else:
                 st.error("Email already exists")
 
