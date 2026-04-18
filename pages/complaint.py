@@ -113,7 +113,7 @@ Description: {description}
         send_mail(email, "Complaint Submitted", user_message)
 
         send_mail(
-            "shuklalakshaya108@gmail.com",
+            "yuvashaktisangathan108@gmail.com",
             "New Complaint",
             admin_message
         )

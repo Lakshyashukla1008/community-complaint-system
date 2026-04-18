@@ -66,7 +66,7 @@ if st.button("Contribute"):
 
         # ---------- ADMIN MAIL ----------
         send_mail(
-            "shuklalakshaya108@gmail.com",
+            "yuvashaktisangathan108@gmail.com",
             "New Contribution",
             f"{name} contributed ₹{payment} via {method}"
         )
