@@ -1,61 +1,40 @@
 import streamlit as st
-import requests
 from database import complaints
 from mail import send_mail
 
-
-
 # ---------- LOGIN CHECK ----------
 if "user" not in st.session_state or st.session_state.user is None:
-    st.warning(f"""Please login first\n
-    click on >> icon on top left and click on Home then select signup from the menu""")
+    st.warning(
+        "Please login first\nClick on >> icon and go to Home page"
+    )
     st.stop()
 
 user = st.session_state.user
 
-# ---------- SESSION ----------
-if "address" not in st.session_state:
-    st.session_state.address = ""
-
-# ---------- FUNCTION ----------
-def get_location():
-    try:
-        data = requests.get("http://ip-api.com/json/").json()
-        return f"{data['city']}, {data['regionName']}, {data['country']}"
-    except Exception:
-        return ""
-
-def set_location():
-    st.session_state.address = get_location()
-
 # ---------- UI ----------
-web_title = st.title("Yuva Shakti Sangathan")
+st.title("Yuva Shakti Sangathan")
 st.subheader("Complaint Form")
 
 name = st.text_input(
     "Name",
-    value = user["name"], 
-    # disabled=True
+    value=user["name"],
+    disabled=True
 )
 
 mobile = st.text_input(
     "Mobile Number",
     placeholder="Enter 10 digit mobile number",
-    max_chars=10,
-    key="mobile_input"
-)   
-
+    max_chars=10
+)
 
 email = st.text_input(
     "Email ID",
-    value=user["email"], 
-    
+    value=user["email"],
+    disabled=True
 )
-
 
 address = st.text_area(
     "Address",
-    
     placeholder="Enter your full address"
 )
 
@@ -82,17 +61,21 @@ description = st.text_area(
 )
 
 
-    # ---------- SUBMIT ----------
+# ---------- SUBMIT ----------
 if st.button("Submit Complaint"):
+
     if (
-        not name.strip()
-        or not mobile.strip()
-        or not email.strip()
+        not mobile.strip()
         or not address.strip()
         or complaint_type == "Select the type of complaint"
     ):
-        st.error("Please fill in all required fields")
+        st.error("Please fill all required fields")
+
+    elif len(mobile) != 10 or not mobile.isdigit():
+        st.error("Enter valid 10 digit mobile number")
+
     else:
+
         complaints.insert_one({
             "name": name,
             "mobile": mobile,
@@ -103,30 +86,29 @@ if st.button("Submit Complaint"):
             "status": "Pending"
         })
 
-        st.success("Complaint submitted successfully")
+        # USER MAIL
         user_message = f"""
-        Namaste {name},
+Namaste {name},
 
-        Your complaint {complaint_type} has been received by Yuva Shakti Sangathan. We will review the details and take necessary action to resolve the issue.
+Your complaint '{complaint_type}' has been received by
+Yuva Shakti Sangathan.
 
-        Stay conected with Yuva Shakti Sangathan for updates on your complaint.
+We will review and take action soon.
 
-        Grow together, create change!
-   
-        Thank you
-        Yuva Shakti Sangathan
-        """
+Thank you 🙏
+"""
 
+        # ADMIN MAIL
         admin_message = f"""
-        New Complaint Received
+New Complaint Received
 
-        Name: {name}
-        Mobile: {mobile}
-        Email: {email}
-        Address: {address}
-        Complaint Type: {complaint_type}
-        Description: {description}
-        """
+Name: {name}
+Mobile: {mobile}
+Email: {email}
+Address: {address}
+Complaint Type: {complaint_type}
+Description: {description}
+"""
 
         send_mail(email, "Complaint Submitted", user_message)
 
@@ -135,5 +117,5 @@ if st.button("Submit Complaint"):
             "New Complaint",
             admin_message
         )
-        st.success("Sangathan recivwed your complaint and will take action soon! 🙏")
 
+        st.success("Complaint submitted successfully 🎉")

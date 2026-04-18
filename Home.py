@@ -3,67 +3,95 @@ from auth import signup_user, login_user
 
 st.set_page_config(page_title="Yuva Shakti Sangathan", layout="centered")
 
-
-
 # ---------- SESSION ----------
 if "user" not in st.session_state:
     st.session_state.user = None
-# # ---------- LOGIN / SIGNUP ----------
-if st.session_state.user is None:
-    menu = st.sidebar.selectbox("Menu", ["Signup","Login"])
 
-    # SIGNUP
+if "show_login" not in st.session_state:
+    st.session_state.show_login = False
+
+if "signup_email" not in st.session_state:
+    st.session_state.signup_email = ""
+
+
+# ---------- LOGIN / SIGNUP ----------
+if st.session_state.user is None:
+
+    menu = st.sidebar.selectbox(
+        "Menu",
+        ["Signup", "Login"],
+        index=1 if st.session_state.show_login else 0
+    )
+
+    # ---------- SIGNUP ----------
     if menu == "Signup":
         st.markdown("### 📝 Create Account")
 
-        name = st.text_input("Name",key="signup_name")
-        email = st.text_input("Email",key="signup_email")
-        password = st.text_input("Password", type="password", key="signup_pass")
+        name = st.text_input("Name")
+        email = st.text_input("Email")
+        password = st.text_input("Password", type="password")
 
-        if st.button("Signup"): 
-            if signup_user(name, email, password):
-                st.success(f"""Account created! Please login.\n\n
-                           Now select "login" from the sidebar top left << icon click on menu and click on login""")
-                
+        if st.button("Signup"):
+            if not name or not email or not password:
+                st.error("Please fill all fields")
             else:
-                st.error("Email already exists")
+                if signup_user(name, email, password):
+                    st.success("Account created! Redirecting to login...")
 
-    # LOGIN
+                    # save email for login autofill
+                    st.session_state.signup_email = email
+
+                    # switch to login
+                    st.session_state.show_login = True
+                    st.rerun()
+
+                else:
+                    st.error("Email already exists")
+
+
+    # ---------- LOGIN ----------
     elif menu == "Login":
         st.subheader("Login")
 
-        email = st.text_input("Email")
+        email = st.text_input(
+            "Email",
+            value=st.session_state.signup_email
+        )
+
         password = st.text_input("Password", type="password")
 
         if st.button("Login"):
             user = login_user(email, password)
+
             if user:
                 st.session_state.user = user
+                st.session_state.show_login = False
                 st.success(f"Welcome {user['name']} 🎉")
                 st.rerun()
             else:
                 st.error("Invalid credentials")
 
-    st.stop()  # 🚨 STOP here if not logged in
+    st.stop()
+
 
 # ---------- MAIN APP (AFTER LOGIN) ----------
 st.sidebar.success(f"Logged in as {st.session_state.user['name']}")
 
 if st.sidebar.button("Logout"):
     st.session_state.user = None
+    st.session_state.signup_email = ""
+    st.session_state.show_login = False
     st.rerun()
 
 
 # ---------- HOME ----------
-
 st.title("Yuva Shakti Sangathan")
 st.caption("Empowering youth to solve community problems 🚀")
 
 st.image(
     "https://i.pinimg.com/1200x/6c/dd/13/6cdd13b4bd695b3d30836a18bef0ea18.jpg",
     width=600
-    )   
-
+)
 
 st.markdown("""
 ### 🙌 Welcome to Yuva Shakti Sangathan
@@ -95,14 +123,19 @@ with col2:
     if st.button("💳 Contribute Now"):
         st.switch_page("pages/contribution.py")
 
+
 st.subheader("Events")
 
 col1, col2 = st.columns(2)
+
 with col1:
     st.write("""
-        15th August 2024 - Independence Day Celebration \n
-        Join us for a grand celebration of India's independence with cultural performances, flag hoisting, and community activities.
-             """)
+15th August 2024 - Independence Day Celebration
+
+Join us for a grand celebration of India's independence
+with cultural performances, flag hoisting, and activities.
+""")
+
 
 st.markdown("---")
 st.caption("Made with ❤️ by Yuva Shakti Sangathan")

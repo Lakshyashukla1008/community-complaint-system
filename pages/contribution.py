@@ -1,28 +1,30 @@
 import streamlit as st
 from database import contributions
-
 from mail import send_mail
 
 
+# ---------- LOGIN CHECK ----------
 if "user" not in st.session_state or st.session_state.user is None:
-    st.warning(f"""Please login first\n
-    click on >> icon on top left and click on Home then select signup from the menu""")
+    st.warning("""Please login first
+
+click on >> icon on top left and click on Home then select signup from the menu""")
     st.stop()
     
 user = st.session_state.user
 
-st.title("Yuva Shakti Sangathan")
 
+# ---------- UI ----------
+st.title("Yuva Shakti Sangathan")
 st.subheader("Contribution")
 
 name = st.text_input(
     "Name",
-    value= user["name"],
+    value=user["name"]
 )
 
 email = st.text_input(
     "Email",
-    value= user["email"]
+    value=user["email"]
 )
 
 payment = st.number_input(
@@ -31,45 +33,42 @@ payment = st.number_input(
     max_value=100000,
     placeholder="Enter amount",
     key="payment_input",
-    help="Please enter a valid amount between 100 and 10000"
-
+    help="Please enter a valid amount between 100 and 100000"
 )
 
 method = st.selectbox(
     "Payment Method",
-    ["UPI","Card","Cash"]
+    ["UPI", "Card", "Cash"]
 )
 
 
+# ---------- SUBMIT ----------
 if st.button("Contribute"):
-    if not name or not email or not payment:
-        st.error("please fill in all the fields")
-    else:   
-        # order = create_order(payment)
-
+    
+    if not name.strip() or not email.strip():
+        st.error("Please fill all fields")
+        
+    else:
         contributions.insert_one({
             "name": name,
             "email": email,
             "payment": payment,
             "method": method,
-            # "status":"Pendeng",
-            # "order_id": order["id"]
+            "status": "Pending"
         })
-        st.success(f"Thank you for your {payment} contribution! 🙏")
 
+        # ---------- USER MAIL ----------
         send_mail(
             email,
-            "Payment Initiated",
-             f"Hello {name}, your payment of ₹{payment}"
+            "Contribution Received",
+            f"Hello {name}, thank you for contributing ₹{payment} to Yuva Shakti Sangathan 🙏"
         )
 
+        # ---------- ADMIN MAIL ----------
         send_mail(
             "shuklalakshaya108@gmail.com",
             "New Contribution",
-            f"{name} is Contirbution ₹{payment}"
+            f"{name} contributed ₹{payment} via {method}"
         )
 
-        st.success("Payment Initiated ✅")
-
-
-      
+        st.success("Contribution submitted successfully 🙏")
