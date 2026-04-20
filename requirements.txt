@@ -1,6 +1,6 @@
 streamlit
 pymongo
 python-dotenv
-razorpay
+dnspython
 requests
 pandas

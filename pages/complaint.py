@@ -1,6 +1,7 @@
 import streamlit as st
-from database import complaints
-from mail import send_mail
+from database.database import complaints
+from services.mail import send_mail
+from datetime import datetime
 
 # ---------- LOGIN CHECK ----------
 if "user" not in st.session_state or st.session_state.user is None:
@@ -62,7 +63,7 @@ description = st.text_area(
 
 
 # ---------- SUBMIT ----------
-if st.button("Submit Complaint"):
+if st.button("Submit Complaint",type="primary"):
 
     if (
         not mobile.strip()
@@ -83,7 +84,8 @@ if st.button("Submit Complaint"):
             "address": address,
             "complaint_type": complaint_type,
             "description": description,
-            "status": "Pending"
+            "status": "Pending",
+            "created_at": datetime.now()
         })
 
         # USER MAIL

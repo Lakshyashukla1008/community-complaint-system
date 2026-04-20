@@ -1,5 +1,5 @@
 import streamlit as st
-from auth import signup_user, login_user
+from auth.auth import signup_user, login_user
 
 st.set_page_config(page_title="Yuva Shakti Sangathan", layout="centered")
 
@@ -17,7 +17,7 @@ if "signup_email" not in st.session_state:
 # ---------- LOGIN / SIGNUP ----------
 if st.session_state.user is None:
 
-    menu = st.sidebar.selectbox(
+    menu = st.sidebar.radio(
         "Menu",
         ["Signup", "Login"],
         index=1 if st.session_state.show_login else 0

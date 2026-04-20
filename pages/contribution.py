@@ -1,7 +1,7 @@
 import streamlit as st
-from database import contributions
-from mail import send_mail
-
+from database.database import contributions
+from services.mail import send_mail
+from datetime import datetime
 
 # ---------- LOGIN CHECK ----------
 if "user" not in st.session_state or st.session_state.user is None:
@@ -54,7 +54,8 @@ if st.button("Contribute"):
             "email": email,
             "payment": payment,
             "method": method,
-            "status": "Pending"
+            "status": "Pending",
+            "created_at": datetime.now()
         })
 
         # ---------- USER MAIL ----------

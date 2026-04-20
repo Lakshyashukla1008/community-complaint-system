@@ -1,8 +1,7 @@
-# 
 import streamlit as st
 import pandas as pd
-from database import complaints, contributions
-from mail import send_mail
+from database.database import complaints, contributions
+from services.mail import send_mail
 
 st.set_page_config(page_title="Admin Panel", layout="wide")
 
@@ -21,7 +20,7 @@ if not st.session_state.admin_logged_in:
     password = st.text_input("Enter admin password", type="password")
 
     if st.button("Login"):
-        if password == "admin@123":
+        if password == st.secrets["ADMIN_PASSWORD"]:
             st.session_state.admin_logged_in = True
             st.rerun()
         else:
