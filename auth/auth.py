@@ -1,12 +1,12 @@
-import hashlib
+import bcrypt
 from database.database import users
 
 def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
 def signup_user(name, email, password):
-    if users.find_one({"email": email}):
-        return False
+    if users.find_one({"email": email.lower()}):
+        return False    
 
     users.insert_one({
         "name": name,
@@ -18,9 +18,12 @@ def signup_user(name, email, password):
 
 
 def login_user(email, password):
-    user = users.find_one({
-        "email": email,
-        "password": hash_password(password)
-    })
+    user = users.find_one({"email": email.lower()})
 
-    return user
+    if user and bcrypt.checkpw(
+        password.encode(),
+        user["password"]
+    ):
+        return user
+
+    return None

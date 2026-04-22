@@ -38,7 +38,7 @@ payment = st.number_input(
 
 method = st.selectbox(
     "Payment Method",
-    ["UPI", "Card", "Cash"]
+    ["UPI", "Card"]
 )
 
 

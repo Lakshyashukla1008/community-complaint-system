@@ -111,9 +111,10 @@ with col2:
     st.success("💰 **Contribute**\n\nSupport community initiatives")
 
 with col3:
-    st.warning("📊 **Track Status**\n\nSee updates on your complaints")
+    st.warning("📊 **Track Status**\n\nCheck your complaint status")
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
+
 
 with col1:
     if st.button("🚀 Raise Complaint"):
@@ -122,6 +123,10 @@ with col1:
 with col2:
     if st.button("💳 Contribute Now"):
         st.switch_page("pages/contribution.py")
+
+with col3:
+    if st.button("📈 Check Status"):
+        st.switch_page("pages/complaint_status.py")
 
 
 st.subheader("Events")

@@ -14,3 +14,5 @@ db = get_db()
 users = db["users"]
 complaints = db["complaints"]
 contributions = db["contributions"]
+reviews = db["reviews"]
+announcements = db["announcements"]
