@@ -89,8 +89,8 @@ st.title("Yuva Shakti Sangathan")
 st.caption("Empowering youth to solve community problems 🚀")
 
 st.image(
-    "https://i.pinimg.com/1200x/6c/dd/13/6cdd13b4bd695b3d30836a18bef0ea18.jpg",
-    width=600
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDzZXduiBsTAv2aKpH6_AfmovEVBiLKfIHtw&s",
+    width=400
 )
 
 st.markdown("""
