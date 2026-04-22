@@ -129,18 +129,5 @@ with col3:
         st.switch_page("pages/Complaint_status.py")
 
 
-st.subheader("Events")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.write("""
-15th August 2024 - Independence Day Celebration
-
-Join us for a grand celebration of India's independence
-with cultural performances, flag hoisting, and activities.
-""")
-
-
 st.markdown("---")
 st.caption("Made with ❤️ by Yuva Shakti Sangathan")

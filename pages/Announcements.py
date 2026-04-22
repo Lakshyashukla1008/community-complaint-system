@@ -1,15 +1,16 @@
 import streamlit as st
 from database.database import announcements
 
+# ---------- LOGIN CHECK (Optional) ----------
+if "user" not in st.session_state or st.session_state.user is None:
+    st.warning("Please login first to view announcements")
+    st.stop()
+
 st.set_page_config(page_title="Announcements", layout="wide")
 
 st.title("📢 Announcements")
 st.divider()
 
-# ---------- LOGIN CHECK (Optional) ----------
-if "user" not in st.session_state or st.session_state.user is None:
-    st.warning("Please login first to view announcements")
-    st.stop()
 
 
 # ---------- FETCH DATA ----------

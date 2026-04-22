@@ -1,6 +1,11 @@
 import streamlit as st
 from database.database import complaints
 
+# ---------- LOGIN CHECK (Optional) ----------
+if "user" not in st.session_state or st.session_state.user is None:
+    st.warning("Please login first to view announcements")
+    st.stop()
+
 st.header("Complaint Status")
 
 st.write("Check your complaint status")
