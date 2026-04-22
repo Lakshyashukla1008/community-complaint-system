@@ -126,7 +126,7 @@ with col2:
 
 with col3:
     if st.button("📈 Check Status"):
-        st.switch_page("pages/complaint_status.py")
+        st.switch_page("pages/Complaint_status.py")
 
 
 st.subheader("Events")
