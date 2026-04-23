@@ -67,8 +67,6 @@ with col1:
     with st.container(border=True):
         st.subheader("📊 Complaint Status")
 
-        import matplotlib.pyplot as plt
-
         labels = ["Pending", "Resolved"]
         sizes = [pending, resolved]
 
