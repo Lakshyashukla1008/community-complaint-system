@@ -135,4 +135,4 @@ with col3:
 
 
 st.markdown("---")
-st.caption("Made with ❤️ by Yuva Shakti Sangathan")
+st.caption("© 2026 Yuva Shakti Sangathan. All rights reserved.")
