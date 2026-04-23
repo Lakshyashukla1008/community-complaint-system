@@ -1,8 +1,8 @@
-streamlit
-pymongo
-python-dotenv
-dnspython
-requests
-pandas
-bcrypt
-matplotlib
+streamlit==1.56.0
+pymongo==4.17.0
+python-dotenv==1.2.2
+dnspython==2.8.0
+requests==2.33.1
+pandas==3.0.2
+bcrypt==5.0.0
+matplotlib==3.10.8
