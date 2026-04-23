@@ -2,15 +2,11 @@ import streamlit as st
 from database.database import complaints
 from services.mail import send_mail
 from datetime import datetime
+from services.auth_helper import check_login
+
 
 # ---------- LOGIN CHECK ----------
-if "user" not in st.session_state or st.session_state.user is None:
-    st.warning(
-        "Please login first\nClick on >> icon and go to Home page"
-    )
-    st.stop()
-
-user = st.session_state.user
+user = check_login()
 
 # ---------- UI ----------
 st.title("Yuva Shakti Sangathan")

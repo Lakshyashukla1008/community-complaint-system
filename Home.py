@@ -1,5 +1,6 @@
 import streamlit as st
 from auth.auth import signup_user, login_user
+from services.auth_helper import logout_user
 
 st.set_page_config(page_title="Yuva Shakti Sangathan", layout="centered")
 
@@ -78,10 +79,9 @@ if st.session_state.user is None:
 st.sidebar.success(f"Logged in as {st.session_state.user['name']}")
 
 if st.sidebar.button("Logout"):
-    st.session_state.user = None
+    logout_user()
     st.session_state.signup_email = ""
     st.session_state.show_login = False
-    st.rerun()
 
 
 # ---------- HOME ----------
@@ -90,7 +90,7 @@ st.caption("Empowering youth to solve community problems 🚀")
 
 st.image(
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDzZXduiBsTAv2aKpH6_AfmovEVBiLKfIHtw&s",
-    width=400
+    width=200
 )
 
 st.markdown("""
@@ -113,6 +113,7 @@ with col2:
 with col3:
     st.warning("📊 **Track Status**\n\nCheck your complaint status")
 
+
 col1, col2, col3 = st.columns(3)
 
 
@@ -126,7 +127,7 @@ with col2:
 
 with col3:
     if st.button("📈 Check Status"):
-        st.switch_page("pages/Complaint_status.py")
+        st.switch_page("pages/complaint_status.py")
 
 
 st.markdown("---")

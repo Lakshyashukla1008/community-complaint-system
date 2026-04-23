@@ -2,12 +2,14 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 
-from database.database import (
-    complaints,
-    contributions,
-    reviews,
-    announcements
-)
+from database.database import get_db
+
+db = get_db()
+
+complaints = db["complaints"]
+contributions = db["contributions"]
+reviews = db["reviews"]
+announcements = db["announcements"]
 
 from services.mail import send_mail
 
@@ -47,7 +49,6 @@ if st.session_state.admin_logged_in:
         st.rerun()
 
     st.success("Welcome Admin! 🎉")
-
     st.divider()
 
     # ======================================
@@ -89,9 +90,7 @@ if st.session_state.admin_logged_in:
 
     def show_data(collection, title):
 
-        st.subheader(title)
-
-        data = list(collection.find().limit(500))
+        data = list(collection.find().sort("created_at",-1).limit(500))
 
         if not data:
             st.info("No data found")
@@ -107,10 +106,18 @@ if st.session_state.admin_logged_in:
         st.dataframe(df, width="stretch")
 
 
-    # ---------- TABLES ----------
-    show_data(complaints, "📋 All Complaints")
-    show_data(contributions, "💰 Contributions")
-    show_data(reviews, "📝 Community Feedback")
+    # ======================================
+    # ---------- EXPANDERS (BEST UI) ----------
+    # ======================================
+
+    with st.expander("📋 View Complaints"):
+        show_data(complaints, "All Complaints")
+
+    with st.expander("💰 View Contributions"):
+        show_data(contributions, "All Contributions")
+
+    with st.expander("📝 View Feedback"):
+        show_data(reviews, "All Feedback")
 
     st.divider()
 

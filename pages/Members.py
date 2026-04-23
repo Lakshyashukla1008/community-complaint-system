@@ -1,14 +1,10 @@
 import streamlit as st
+from services.auth_helper import check_login
 
-st.set_page_config(page_title="Committee Members", layout="wide")
 # ---------- LOGIN CHECK ----------
-if "user" not in st.session_state or st.session_state.user is None:
-    st.warning(
-        "Please login first\nClick on >> icon and go to Home page"
-    )
-    st.stop()
+user = check_login()
+st.set_page_config(page_title="Committee Members", layout="wide")
 
-user = st.session_state.user
 
 # ---------- UI ----------
 st.title("Yuva Shakti Sangathan")

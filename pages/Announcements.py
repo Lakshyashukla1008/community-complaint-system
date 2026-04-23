@@ -1,10 +1,9 @@
 import streamlit as st
 from database.database import announcements
+from services.auth_helper import check_login
 
 # ---------- LOGIN CHECK (Optional) ----------
-if "user" not in st.session_state or st.session_state.user is None:
-    st.warning("Please login first to view announcements")
-    st.stop()
+user = check_login()
 
 st.set_page_config(page_title="Announcements", layout="wide")
 

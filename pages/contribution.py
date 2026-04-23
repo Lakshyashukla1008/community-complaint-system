@@ -2,15 +2,10 @@ import streamlit as st
 from database.database import contributions
 from services.mail import send_mail
 from datetime import datetime
+from services.auth_helper import check_login
 
-# ---------- LOGIN CHECK ----------
-if "user" not in st.session_state or st.session_state.user is None:
-    st.warning("""Please login first
+user = check_login()
 
-click on >> icon on top left and click on Home then select signup from the menu""")
-    st.stop()
-    
-user = st.session_state.user
 
 
 # ---------- UI ----------

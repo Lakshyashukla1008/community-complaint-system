@@ -1,14 +1,10 @@
 import streamlit as st
 from database.database import reviews
+from services.auth_helper import check_login
+from datetime import datetime
 
 # ---------- LOGIN CHECK -------- --
-if "user" not in st.session_state or st.session_state.user is None:
-    st.warning(
-        "Please login first\nClick on >> icon and go to Home page"
-    )
-    st.stop()
-
-user = st.session_state.user
+user = check_login()
 
 # ---------- UI ----------
 st.title("Yuva Shakti Sangathan")
@@ -23,6 +19,7 @@ if st.button("Submit"):
     else:
         reviews.insert_one({
             "name": name,
-            "message": message
+            "message": message,
+            "created_at": datetime.now()
         })
         st.success("Thank you for your feedback")

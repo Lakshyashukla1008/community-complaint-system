@@ -1,10 +1,9 @@
 import streamlit as st
 from database.database import complaints
+from services.auth_helper import check_login
 
 # ---------- LOGIN CHECK (Optional) ----------
-if "user" not in st.session_state or st.session_state.user is None:
-    st.warning("Please login first to view announcements")
-    st.stop()
+user = check_login()
 
 st.header("Complaint Status")
 
@@ -25,7 +24,7 @@ if st.button("Check Status"):
         else:
             for c in data:
                 st.container(border=True)
-                st.write(f"your complaint")
+                st.write(f"Your complaint")
                 st.write(f"Name:   {c['name']}")
                 st.write(f"Complaint:   {c['complaint_type']}")
                 st.write(f"Address:   {c['address']}")
