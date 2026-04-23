@@ -1,5 +1,9 @@
 import streamlit as st
 from services.auth_helper import check_login
+import sys
+import os
+
+sys.path.append(os.path.dirname(__file__))
 
 # ---------- LOGIN CHECK ----------
 user = check_login()

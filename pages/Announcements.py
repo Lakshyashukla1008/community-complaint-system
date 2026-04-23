@@ -1,6 +1,10 @@
 import streamlit as st
 from database.database import announcements
 from services.auth_helper import check_login
+import sys
+import os
+
+sys.path.append(os.path.dirname(__file__))
 
 # ---------- LOGIN CHECK (Optional) ----------
 user = check_login()

@@ -2,6 +2,10 @@ import streamlit as st
 from database.database import reviews
 from services.auth_helper import check_login
 from datetime import datetime
+import sys
+import os
+
+sys.path.append(os.path.dirname(__file__))
 
 # ---------- LOGIN CHECK -------- --
 user = check_login()

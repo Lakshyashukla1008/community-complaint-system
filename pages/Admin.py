@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+import sys
+import os
 
 from database.database import get_db
 
@@ -10,6 +12,8 @@ complaints = db["complaints"]
 contributions = db["contributions"]
 reviews = db["reviews"]
 announcements = db["announcements"]
+
+sys.path.append(os.path.dirname(__file__))
 
 from services.mail import send_mail
 

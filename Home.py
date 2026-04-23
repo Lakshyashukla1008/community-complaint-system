@@ -1,6 +1,10 @@
 import streamlit as st
 from auth.auth import signup_user, login_user
 from services.auth_helper import logout_user
+import sys
+import os
+
+sys.path.append(os.path.dirname(__file__))
 
 st.set_page_config(page_title="Yuva Shakti Sangathan", layout="centered")
 

@@ -3,6 +3,10 @@ from database.database import contributions
 from services.mail import send_mail
 from datetime import datetime
 from services.auth_helper import check_login
+import sys
+import os
+
+sys.path.append(os.path.dirname(__file__))
 
 user = check_login()
 

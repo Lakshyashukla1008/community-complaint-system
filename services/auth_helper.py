@@ -8,14 +8,6 @@ def check_login():
     return st.session_state.user
 
 
-# ---------- ADMIN LOGIN CHECK ----------
-def check_admin():
-    if "admin_logged_in" not in st.session_state:
-        st.session_state.admin_logged_in = False
-
-    if not st.session_state.admin_logged_in:
-        st.warning("Admin access required")
-        st.stop()
 
 
 # ---------- LOGOUT ----------
